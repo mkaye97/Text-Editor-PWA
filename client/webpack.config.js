@@ -1,3 +1,4 @@
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -16,44 +17,42 @@ module.exports = () => {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
     },
-    plugins: [
-      // Webpack plugin that generates our html file and injects our bundles. 
-      new HtmlWebpackPlugin({
-        template: './index.html',
-        title: 'PWA Text Editior'
-      }),
+    plugins: [new HtmlWebpackPlugin({
+      template: './index.html',
+      title: 'Text Editor',
+    }),
+    new MiniCssExtractPlugin(),
+    new InjectManifest({
+      swSrc: './src-sw.js',
+      swDest: 'src-sw.js',
+    }),
 
-      // Injects our custom service worker
-      new InjectManifest({
-        swSrc: './src-sw.js',
-        swDest: 'service-worker.js',
-      }),
+    new GenerateSW(),
+    
+    new WebpackPwaManifest({
+      name: 'Text Editor PWA',
+      short_name: 'Text Editor',
+      description: 'Create notes',
+      background_color: '#7eb4e2',
+      theme_color: '#7eb4e2',
+      start_url: './',
+      publicPath: './',
+      icons: [
+        {
+          src: path.resolve('src/images/logo.png'),
+          sizes: [96, 128, 192, 256, 384, 512],
+          destination: path.join('assets', 'icons'),
+        },
+      ],
+    }),
 
-      // Creates a manifest.json file.
-      new WebpackPwaManifest({
-        name: 'PWA Text Editior',
-        short_name: 'Text Editor',
-        description: 'Create notes or code snippets with or without an internet connection.',
-        background_color: '#225ca3',
-        theme_color: '#225ca3',
-        start_url: './',
-        publicPath: './',
-        icons: [
-          {
-            src: path.resolve('src/images/logo.png'),
-            sizes: [96, 128, 192, 256, 384, 512],
-            destination: path.join('assets', 'icons'),
-          },
-        ],
-      }),
     ],
 
     module: {
-      // CSS loaders
       rules: [
         {
           test: /\.css$/i,
-          use: [MiniCSSExtractPlugin.loader, 'css-loader'],
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
         {
           test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -62,10 +61,10 @@ module.exports = () => {
         {
           test: /\.m?js$/,
           exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
             },
           },
         },
