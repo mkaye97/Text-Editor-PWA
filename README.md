@@ -1,5 +1,9 @@
 # Text-Editor-PWA
 
+## Description
+
+This application serves as a basic text editor, mainly intended for notes and code snippets. Meeting Progressive Web Application Standards (PWA), it also makes use of a service worker to cache resources when offline, indexed DB to store data when offline, and is downloadable.
+
 ## User Story
 
 ```md
@@ -37,3 +41,7 @@ THEN I should have my static assets pre cached upon loading along with subsequen
 WHEN I deploy to Heroku
 THEN I should have proper build scripts for a webpack application
 ```
+
+## Links
+
+Deployed on Heroku: https://text-editor-mkaye.herokuapp.com/
