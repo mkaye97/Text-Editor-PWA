@@ -42,6 +42,10 @@ WHEN I deploy to Heroku
 THEN I should have proper build scripts for a webpack application
 ```
 
+## Screenshots
+
+![Screenshot After Use](./readme-images/jate.png)
+
 ## Links
 
 Deployed on Heroku: https://text-editor-mkaye.herokuapp.com/
